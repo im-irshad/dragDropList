@@ -29,7 +29,7 @@ function insertList() {
       sData.setAttribute("data-index", index);
       sData.innerHTML = `
       <span class="nr">${index + 1}</span>
-      <div class="draggable" draggable="true">
+      <div class="draggableDiv" draggable="true">
           <p class="">${d.value}</p>
           <i class="fas fa-grip-lines"></i>
         </div>
@@ -43,4 +43,35 @@ function insertList() {
     });
 
   storeData.map(() => {});
+  addEventListeners();
+}
+function dragStart() {
+  console.log("dragstart");
+}
+function dragLeave() {
+  console.log("dragleaver");
+}
+function dragEnter() {
+  console.log("dragenter");
+}
+function dragDrop() {
+  console.log("dragdrop");
+}
+function dragOver() {
+  console.log("over");
+}
+
+function addEventListeners() {
+  const divToDrag = document.querySelectorAll(".draggableDiv");
+  const itemToDrag = document.querySelectorAll(".dragDropList li");
+
+  divToDrag.forEach((drag) => {
+    drag.addEventListener("dragstart", dragStart);
+  });
+  itemToDrag.forEach((dragItem) => {
+    dragItem.addEventListener("dragleave", dragLeave);
+    dragItem.addEventListener("dragenter", dragEnter);
+    dragItem.addEventListener("drop", dragDrop);
+    dragItem.addEventListener("dragover", dragOver);
+  });
 }
