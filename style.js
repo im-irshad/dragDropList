@@ -24,7 +24,7 @@ function insertList() {
     .map((v) => ({ value: v, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .forEach((d, index) => {
-      console.log(d.value);
+      //console.log(d.value);
       const sData = document.createElement("li");
       sData.setAttribute("data-index", index);
       sData.innerHTML = `
@@ -46,19 +46,47 @@ function insertList() {
   addEventListeners();
 }
 function dragStart() {
-  console.log("dragstart");
+  startIndex = +this.closest("li").getAttribute("data-index");
+  //console.log(startIndex);
 }
 function dragLeave() {
-  console.log("dragleaver");
+  // console.log("dragleaver");
+  this.classList.remove("over");
 }
 function dragEnter() {
-  console.log("dragenter");
+  // console.log("dragenter");
+  this.classList.remove("over");
 }
 function dragDrop() {
-  console.log("dragdrop");
+  const endIndex = +this.closest("li").getAttribute("data-index");
+  // console.log(endIndex);
+  replaceItems(startIndex, endIndex);
+  this.classList.remove("over");
 }
-function dragOver() {
-  console.log("over");
+function dragOver(e) {
+  // console.log("over");
+  e.preventDefault();
+}
+
+function replaceItems(fromLi, toLi) {
+  let firstLi = storeData[fromLi].querySelector(".draggableDiv");
+  let secondLi = storeData[toLi].querySelector(".draggableDiv");
+  // console.log(firstLi, secondLi);
+  storeData[fromLi].appendChild(secondLi);
+  storeData[toLi].appendChild(firstLi);
+}
+
+function compare() {
+  storeData.forEach((sdata, index) => {
+    let number = sdata.querySelector(".draggableDiv").innerText;
+    if (number !== data[index]) {
+      sdata.style.color = "red";
+      //  console.log("wrong");
+    } else {
+      sdata.style.color = "white";
+      // console.log("right");
+    }
+  });
 }
 
 function addEventListeners() {
@@ -75,3 +103,5 @@ function addEventListeners() {
     dragItem.addEventListener("dragover", dragOver);
   });
 }
+
+check.addEventListener("click", compare);
